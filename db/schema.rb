@@ -14,7 +14,7 @@ ActiveRecord::Schema.define(version: 2023_03_12_075621) do
 
   create_table "records", charset: "utf8", force: :cascade do |t|
     t.string "title"
-    t.decimal "study_hour", precision: 10
+    t.float "study_hour"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
