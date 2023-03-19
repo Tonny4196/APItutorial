@@ -25,22 +25,36 @@ environment ENV.fetch("RAILS_ENV") { "development" }
 # Specifies the `pidfile` that Puma will use.
 pidfile ENV.fetch("PIDFILE") { "tmp/pids/server.pid" }
 
-# Specifies the number of `workers` to boot in clustered mode.
-# Workers are forked web server processes. If using threads and workers together
-# the concurrency of the application would be max `threads` * `workers`.
-# Workers do not work on JRuby or Windows (both of which do not support
-# processes).
-#
-# workers ENV.fetch("WEB_CONCURRENCY") { 2 }
+#アプリケーションサーバの性能を決定する
+workers 2
 
-# Use the `preload_app!` method when specifying a `workers` number.
-# This directive tells Puma to first boot the application and load code
-# before forking the application. This takes advantage of Copy On Write
-# process behavior so workers use less memory.
-#
-# preload_app!
+#アプリケーションの設置されているディレクトリを指定
+app_path = File.expand_path('../../', __FILE__)
+directory app_path
 
-# Allow puma to be restarted by `rails restart` command.
-plugin :tmp_restart
+#ポート番号を指定
+# listen 3000
+bind "unix://#{app_path}/tmp/sockets/puma.sock"
 
+#エラーのログを記録するファイルを指定
+stderr_path "#{app_path}/log/puma.stderr.log"
 
+#通常のログを記録するファイルを指定
+stdout_path "#{app_path}/log/puma.stdout.log"
+
+#Railsアプリケーションの応答を待つ上限時間を設定
+worker_timeout 3600
+
+#以下は応用的な設定なので説明は割愛
+preload_app true
+GC.respond_to?(:copy_on_write_friendly=) && GC.copy_on_write_friendly = true
+check_client_connection false
+run_once = true
+
+before_fork do
+  ActiveRecord::Base.connection_pool.disconnect!
+end
+
+on_worker_boot do
+  ActiveRecord::Base.establish_connection
+end
