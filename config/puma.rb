@@ -37,10 +37,10 @@ directory app_path
 bind "unix://#{app_path}/tmp/sockets/puma.sock"
 
 #エラーのログを記録するファイルを指定
-stderr_path "#{app_path}/log/puma.stderr.log"
+state_path "#{app_path}/log/puma.state"
 
 #通常のログを記録するファイルを指定
-stdout_path "#{app_path}/log/puma.stdout.log"
+stdout_redirect "#{app_path}/log/puma.stdout.log", "#{app_path}/log/puma.stderr.log", true
 
 #Railsアプリケーションの応答を待つ上限時間を設定
 worker_timeout 3600
