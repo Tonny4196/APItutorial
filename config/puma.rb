@@ -16,7 +16,7 @@ worker_timeout 3600 if ENV.fetch("RAILS_ENV", "development") == "development"
 # Specifies the `port` that Puma will listen on to receive requests; default is 3000.
 #
 # port ENV.fetch("PORT") { 3000 }
-bind "unix://#{Dir.pwd}/tmp/sockets/puma.sock"
+bind "unix://#{Dir.pwd}/tmp/sockets/puma.sock?reuseport=true"
 
 # Specifies the `environment` that Puma will run in.
 #
@@ -46,7 +46,7 @@ stdout_redirect "#{app_path}/log/puma.stdout.log", "#{app_path}/log/puma.stderr.
 worker_timeout 3600
 
 #以下は応用的な設定なので説明は割愛
-preload_app true
+preload_app! true
 GC.respond_to?(:copy_on_write_friendly=) && GC.copy_on_write_friendly = true
 check_client_connection false
 run_once = true
