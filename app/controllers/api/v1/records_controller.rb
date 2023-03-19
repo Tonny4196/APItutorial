@@ -1,11 +1,11 @@
-module api
-  module v1
+module Api
+  module V1
     class RecordsController < ApplicationController
       before_action :set_record, only: [:show, :update, :destroy]
 
       def index
         records = Record.order(created_at: :desc)
-        render :json { status: 'SUCCESS', message: 'Loaded record', data: records }
+        render json: { status: 'SUCCESS', message: 'Loaded record', data: records }
       end
 
       def show
