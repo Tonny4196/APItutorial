@@ -20,7 +20,7 @@ bind "unix://#{Dir.pwd}/tmp/sockets/puma.sock?reuseport=true"
 
 # Specifies the `environment` that Puma will run in.
 #
-environment ENV.fetch("RAILS_ENV") { "development" }
+environment ENV.fetch("RAILS_ENV") { "production" }
 
 # Specifies the `pidfile` that Puma will use.
 pidfile ENV.fetch("PIDFILE") { "tmp/pids/server.pid" }
@@ -48,7 +48,6 @@ worker_timeout 3600
 #以下は応用的な設定なので説明は割愛
 preload_app! true
 GC.respond_to?(:copy_on_write_friendly=) && GC.copy_on_write_friendly = true
-check_client_connection false
 run_once = true
 
 before_fork do
