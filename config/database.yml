@@ -28,3 +28,7 @@ test:
 
 production:
   <<: *default
+  database: APItutorial
+  username: root
+  password: Thomas@8kobe24
+  host: localhost
