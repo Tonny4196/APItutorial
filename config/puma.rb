@@ -8,7 +8,7 @@ threads min_threads_count, max_threads_count
 
 if ENV.fetch("RAILS_ENV") { ENV['RACK_ENV'] || "development" } == "development"
   # 開発環境の場合のみlocalhost:3000でバインドする
-  bind "tcp://localhost:3000"
+  port ENV.fetch("PORT") { 3000 }
 else
   # 本番環境の場合はUNIXドメインソケットでバインドする
   bind "unix://#{app_path}/tmp/sockets/puma.sock"
@@ -16,9 +16,6 @@ end
 
 # Pumaの挙動を制御する設定を記述する
 pidfile "#{app_path}/tmp/pids/server.pid"
-
-# worker数はCPUコア数を2倍として設定する
-workers ENV.fetch("WEB_CONCURRENCY") { 2 }
 
 # アプリケーションを事前に読み込む
 preload_app!
