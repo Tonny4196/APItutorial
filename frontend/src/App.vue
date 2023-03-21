@@ -1,14 +1,21 @@
 <template lang="pug">
-  img(:alt="Vue logo", :src="./assets/logo.png")
-  HelloWorld(:msg="Welcome to Your Vue.js App")
+  .text
+  | ああああああああああああああああああああああああ
+  .global_natvigation 
+    GlobalNavigation
+  .main
+    img(:alt="Vue logo", :src="./assets/logo.png")
+    HelloWorld(:msg="ようこそ")
 </template>
 
 <script>
+import GlobalNavigation from "./components/global/GlobalNavigation.vue";
 import HelloWorld from "./components/HelloWorld.vue";
 
 export default {
   name: "App",
   components: {
+    GlobalNavigation,
     HelloWorld,
   },
 };
